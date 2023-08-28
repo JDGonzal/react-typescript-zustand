@@ -103,16 +103,16 @@ pnpm install zustand -E
     interface State {
       questions: Question[];
       currentQuestion: number;
-      fetchQuestion: (limit: number)=>void;
+      fetchQuestions: (limit: number)=>void;
     }
 ```
 8. Creating the Global estate like:
 ```js
-    export const useQuestionStotre = create<State>(( set)=>{
+    export const useQuestionStore = create<State>(( set)=>{
       return {
         questions:[],
         currentQuestion:0,
-        fetchQuestion: async(limit: number)=>{
+        fetchQuestions: async(limit: number)=>{
           console.log(limit);
         }
       }
@@ -120,7 +120,41 @@ pnpm install zustand -E
 ```
 9. Call in "App.tsx" file the Store data:
 ```js
-    const questions = useQuestionStotre(state => state.questions);
+    const questions = useQuestionStore(state => state.questions);
+```
+
+## Use the questions in the Store
+1. Into the "questions.ts" file for the function complete the set, at least with one question (Copied from "data.json" file):
+```js
+    fetchQuestions: async (limit: number) => {
+          console.log(limit);
+          set({
+            questions: [
+              {
+                "id": 1,
+                "question": "¿Cuál es la salida de este código?",
+                "code": "console.log(typeof NaN)",
+                "answers": [
+                  "undefined",
+                  "NaN",
+                  "string",
+                  "number"
+                ],
+                "correctAnswer": 3
+              }
+            ],
+          });
+          get();
+        }
+```
+2. Call this `fetchQuestions` into "Start.tsx" file:
+```js
+      const fetchQuestions = useQuestionStore(state => state.fetchQuestions);
+      const handleClick = () => { fetchQuestions(5); }
+```
+3. Just for test in "App.tsx" file , change the `<Start />` for a conditional:
+```js
+          {questions.length===0?<Start />:<h1>Juego</h1>}
 ```
 
 ## React + TypeScript + Vite
