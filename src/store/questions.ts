@@ -7,29 +7,16 @@ interface State {
   fetchQuestions: (limit: number) => void;
 }
 
-export const useQuestionStore = create<State>((set, get) => {
+export const useQuestionsStore = create<State>((set, get) => {
   return {
     questions: [],
     currentQuestion: 0,
     fetchQuestions: async (limit: number) => {
-      console.log(limit);
-      set({
-        questions: [
-          {
-            "id": 1,
-            "question": "¿Cuál es la salida de este código?",
-            "code": "console.log(typeof NaN)",
-            "answers": [
-              "undefined",
-              "NaN",
-              "string",
-              "number"
-            ],
-            "correctAnswer": 3
-          }
-        ],
-      });
-      get();
+      const res = await fetch('http://localhost:5173/data.json');
+      const data = await res.json();
+      const questions = data.sort(() => Math.random() - 0.5).slice(0, limit);
+      set({ questions });
+      console.log('useQuestionsStore.get:',get());
     }
   }
 });
