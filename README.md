@@ -60,7 +60,16 @@ Note: "ts-standard" is a ruler set to work with Typescript and React.
 4. As weel envolve this `<h1>` element with `Typography`, to use this typographyc, with this `variant="h2" component="h1"`.
 5. Finally delete the `<h1>` element.
 
-
+## Add a page that when clicked retrieves all the questions
+1. Add a "data.json" in public directory with questions and answers.
+2. Add the "start.tsx" in the "src" directory, and run the `rfce` snippet, and delete the first line.
+3. Change the `Start` text between `<div>` element by `<Button onClick={() => { }}  variant="contained"></Button>`, element from `@mui/material`.
+4. In the middle add the text `Start!` or `¡Vamos a Empezar!`.
+5. Add the `<Start/>` below the `</Stack>` in "App.tsx" file.
+6. Now install the `zustand`.
+```bash
+pnpm install zustand -E
+```
 
 ## React + TypeScript + Vite
 
