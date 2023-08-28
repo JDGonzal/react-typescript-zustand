@@ -108,7 +108,7 @@ pnpm install zustand -E
 ```
 8. Creating the Global estate like:
 ```js
-    export const useQuestionStore = create<State>(( set)=>{
+    export const useQuestionsStore = create<State>(( set)=>{
       return {
         questions:[],
         currentQuestion:0,
@@ -120,10 +120,10 @@ pnpm install zustand -E
 ```
 9. Call in "App.tsx" file the Store data:
 ```js
-    const questions = useQuestionStore(state => state.questions);
+    const questions = useQuestionsStore(state => state.questions);
 ```
 
-## Use the questions in the Store
+## Use the questions in the Store, with a manual data
 1. Into the "questions.ts" file for the function complete the set, at least with one question (Copied from "data.json" file):
 ```js
     fetchQuestions: async (limit: number) => {
@@ -149,13 +149,30 @@ pnpm install zustand -E
 ```
 2. Call this `fetchQuestions` into "Start.tsx" file:
 ```js
-      const fetchQuestions = useQuestionStore(state => state.fetchQuestions);
+      const fetchQuestions = useQuestionsStore(state => state.fetchQuestions);
       const handleClick = () => { fetchQuestions(5); }
 ```
 3. Just for test in "App.tsx" file , change the `<Start />` for a conditional:
 ```js
           {questions.length===0?<Start />:<h1>Juego</h1>}
 ```
+## Using a Data.json into the useQuestionsStore
+1. We can `fetch` the json data into `fetchQuestions`:
+```js
+        fetchQuestions: async (limit: number) => {
+          const res = await fetch('http://localhost:5173/data.json');
+          const data = await res.json();
+        }
+```
+2. Then use this data to store in a new variable in random order:
+```js
+        fetchQuestions: async (limit: number) => {
+          ...
+          const questions = data.sort(() => Math.random() - 0.5).slice(0, limit);
+          set({ questions });
+        }
+```
+3. Create a const to export called `LIMIT_QUESTIONS` into "Start.tsx" file.
 
 ## React + TypeScript + Vite
 
