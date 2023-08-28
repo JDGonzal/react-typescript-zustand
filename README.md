@@ -18,6 +18,39 @@ Based on this site
 cd react-typescript-zustand
 pnpm install
 ```
+4. Install the react MUI 
+```bash
+pnpm install @mui/material @emotion/react @emotion/styled
+```
+5. Install fontsource/roboto and icons-material
+```bash
+pnpm install @fontsource/roboto @mui/icons-material -E
+```
+6. Install as developer the ts-standard
+```bash
+pnpm install ts-standard -D
+```
+Note: "ts-standard" is a ruler set to work with Typescript and React.
+
+7. based on the ts-standard do changes in ".eslintrc.cjs", change some values in "eslinrc.cjs" and "tsconfig.json".
+8. Restart the eslint server , pressing [Shift]+[Ctlr]+[P], search by "ESLint: Restart".
+
+## Changing the project to start the work
+
+1. Deleting the "App.tsx" all into the first `<>` element.
+2. Just add the `<h1>JavaScript Quizz</h1>` in the "App.tsx" file.
+3. Import in "main.tsx" the font list of "roboto' 
+```js
+    import '@fontsource/roboto/300.css';
+    import '@fontsource/roboto/400.css';
+    import '@fontsource/roboto/500.css';
+    import '@fontsource/roboto/700.css';
+```
+3. Delete the "maintsx" the first line `import React from 'react'`, then remove `<React.StrictMode>`, as well.
+4. Creating a new component in "src" directory, called "JavaScriptLogo.tsx" and run the `rfce` snippet, and delete the first line.
+5. Take the JavaScript log in SVG format from this site [Descarga el logo de HTML5, CSS3 y JavaScript en formato vectorial SVG](https://midu.dev/logos-svg-css-html-javascript/)
+6. Change the `<div>` element of the new "JavaScriptLogo.tsx" file.
+7. Change the `width={48}` and `height={48}`.
 
 ## React + TypeScript + Vite
 
