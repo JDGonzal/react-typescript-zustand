@@ -51,6 +51,16 @@ Note: "ts-standard" is a ruler set to work with Typescript and React.
 5. Take the JavaScript log in SVG format from this site [Descarga el logo de HTML5, CSS3 y JavaScript en formato vectorial SVG](https://midu.dev/logos-svg-css-html-javascript/)
 6. Change the `<div>` element of the new "JavaScriptLogo.tsx" file.
 7. Change the `width={48}` and `height={48}`.
+8. Change in "App.tsx".
+
+## Creating a Title of the Header
+1. Using a `{Contanier}` from `@mui/material` , in "App.tsx" file, to envolve the `<h1>` element, with a `maxWidth="sm"`.
+2. Envolve the `<h1>` element with `Stack`, to put like `direction="row" gap={2} alignItems="center" justifyContent="center"`.
+3. Add the `<JavaScriptLogo />` above the `<h1>` element.
+4. As weel envolve this `<h1>` element with `Typography`, to use this typographyc, with this `variant="h2" component="h1"`.
+5. Finally delete the `<h1>` element.
+
+
 
 ## React + TypeScript + Vite
 
