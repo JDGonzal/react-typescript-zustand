@@ -5,8 +5,15 @@ import { gradientDark } from "react-syntax-highlighter/dist/esm/styles/hljs";
 import { Question } from "./types";
 
 const QuestionComponent = ({ info }: { info: Question }) => {
+  const selectAnswer = useQuestionsStore(state => state.selectAnswer);
+  // a function that returns a function
+  const createHandleClick = (answerIndex: number) =>()=> {
+    selectAnswer(info.id, answerIndex);
+    console.log(info.answers, answerIndex);
+  }
+
   return (
-    <Card variant="outlined" sx={{ bgcolor: '#222', p: 2, textAlign: 'left' }}>
+    <Card variant="outlined" sx={{ bgcolor: '#222', p: 2, textAlign: 'left', marginTop:4}}>
       <Typography variant="h5" color="#fefe">
         {info.question}
       </Typography>
@@ -16,7 +23,7 @@ const QuestionComponent = ({ info }: { info: Question }) => {
       <List sx={{ bgcolor: '#333', color:'#efe' }} disablePadding> 
         {info.answers.map((answer, index) => (
           <ListItem key={index} disablePadding divider>
-            <ListItemButton>
+            <ListItemButton onClick={createHandleClick(index)}>
               <ListItemText primary={answer} />
             </ListItemButton>
           </ListItem>
