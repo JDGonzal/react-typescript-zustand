@@ -209,6 +209,42 @@ function Game() {
 ```
 7. Change the `<h1>Juego</h1>` element by the `<Game/>` component. 
 
+## Improvement the Game component
+1. Based on this site [React Syntax Highlighter](https://github.com/react-syntax-highlighter/react-syntax-highlighter), we will run this command 
+```bash
+pnpm install react-syntax-highlighter -E
+```
+2. Install the Types in Developer way:
+```bash
+pnpm install @types/react-syntax-highlighter -D
+```
+3. Import the `SyntaxHighlighter` and the styles:
+```js
+    import SyntaxHighlighter  from "react-syntax-highlighter";
+    import { gradientDark } from "react-syntax-highlighter/dist/esm/styles/hljs";
+```
+4. Using this syntaxHighlighter in the "Game" component:
+```js
+          <SyntaxHighlighter language="JavaScript" style={gradientDark}>
+            {info.code}
+          </SyntaxHighlighter>
+```
+5. Add to the `<Card>` element some styles with `sx={{ }}`.
+6. Add to the `<Typography>` element some styles.
+7. Add the List of with `<List>` element.
+8. Add those elements inside the `<List` element: `<ListItem> <ListItemButton> <ListItemText>`, then this is the result:
+```js
+          <List sx={{ bgcolor: '#333', color:'#efe' }} disablePadding> 
+            {info.answers.map((answer, index) => (
+              <ListItem key={index} disablePadding divider>
+                <ListItemButton>
+                  <ListItemText primary={answer} />
+                </ListItemButton>
+              </ListItem>
+            ))}
+          </List>
+    ```
+
 ## React + TypeScript + Vite
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
