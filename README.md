@@ -62,7 +62,7 @@ Note: "ts-standard" is a ruler set to work with Typescript and React.
 
 ## Add a page that when clicked retrieves all the questions
 1. Add a "data.json" in public directory with questions and answers.
-2. Add the "start.tsx" in the "src" directory, and run the `rfce` snippet, and delete the first line.
+2. Add the "start.tsx" in the "src" directory, run the `rfce` snippet, and delete the first line.
 3. Change the `Start` text between `<div>` element by `<Button onClick={() => { }}  variant="contained"></Button>`, element from `@mui/material`.
 4. In the middle add the text `Start!` or `¡Vamos a Empezar!`.
 5. Add the `<Start/>` below the `</Stack>` in "App.tsx" file.
@@ -173,6 +173,41 @@ pnpm install zustand -E
         }
 ```
 3. Create a const to export called `LIMIT_QUESTIONS` into "Start.tsx" file.
+
+## Starting with the Game
+1. Create in the root a "Game.tsx" component, run the `rfce` snippet, and delete the first line.
+2. Add as a first line in  "Game.tsx" file this: `import { IconButton, Stack } from "@mui/material";`.
+3. Import the `useQuestionsStore` to put elements in the `function Game()`:
+```js
+function Game() {
+      const questions = useQuestionsStore(state => state.questions);
+      const currentQuestion = useQuestionsStore(state => state.currentQuestion);
+      )
+    }
+```
+4. Add a `questionInfo` using the previos data from `useQuestionStore`:
+```js
+    const questionInfo = questions[currentQuestion];
+```
+5. Add a Component into this "Game.tsx" file:
+```js
+    const QuestionComponent = ({ info }: { info: Question }) => {
+      return (
+        <Card variant="outlined">
+          <Typography variant="h5">
+            { info.question}
+          </Typography>
+        </Card>
+      );
+    }
+```
+6. Return this Component with the `questionInfo` to `info`:
+```js
+      return (
+        <QuestionComponent info={questionInfo} />
+      )
+```
+7. Change the `<h1>Juego</h1>` element by the `<Game/>` component. 
 
 ## React + TypeScript + Vite
 
