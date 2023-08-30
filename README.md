@@ -243,7 +243,85 @@ pnpm install @types/react-syntax-highlighter -D
               </ListItem>
             ))}
           </List>
-    ```
+```
+
+## The Uses can select the question and the answer
+1. Based on the `userSelectedAnswer?:  number;` from "types.d.ts" file, adding a new method into the "questions.ts" file that is our *store*, "questions.ts" file:
+```js
+    interface State {
+      ...
+      selectAnswer: (questionId: number, answerIndex: number) => void;
+    }
+```
+2. This new method put below the `fetchQuestions:`:
+```js
+        selectAnswer: (questionId: number, answerIndex: number) => {
+        }
+```
+3. the `get()` is all estate into `useQuestionsStore`, then we need to recover only the `questions` array of them:
+```js
+        selectAnswer: (questionId: number, answerIndex: number) => {
+          const {questions }= get();
+        }
+```
+4. Using `structuredClone` we are going to copy this array into a new one:
+```js
+        selectAnswer: (questionId: number, answerIndex: number) => {
+          ... const newQuestions = structuredClone(questions);
+        }
+```
+5. Find the element based on the `questionId`:
+```js
+        selectAnswer: (questionId: number, answerIndex: number) => {
+          ... const questionIndex = newQuestions.findIndex(q => q.id === questionId);
+        }
+```
+6. Get the `questionInfo`, from the `newQuestions` in the position `questionIndex`:
+```js
+        selectAnswer: (questionId: number, answerIndex: number) => {
+          ... const questionInfo = newQuestions[questionIndex];
+        }
+```
+7. Checking the Correct answer:
+```js
+        selectAnswer: (questionId: number, answerIndex: number) => {
+          ... onst isCorrectUserAnswer = questionInfo.correctAnswer === answerIndex;
+        }
+```
+8. Before to update the state, chang the question in the `newQuestions`:
+```js
+        selectAnswer: (questionId: number, answerIndex: number) => {
+          ... 
+          newQuestions[questionIndex] ={
+            ... questionInfo,
+            isCorrectUserAnswer,
+            userSelectedAnswer: answerIndex,
+          }
+        }
+```
+9. Then update the state, and end of the process in "questions.ts" file:
+```js
+        selectAnswer: (questionId: number, answerIndex: number) => {
+          ... set({questions: newQuestions});
+        }
+```
+10. In the "Game.tsx" file, get the selected answer:
+```js
+      const selectAnswer = useQuestionsStore(state => state.selectAnswer);
+```
+11. Create an HandleClick function with anohter function inside:
+```js
+      const createHandleClick = (answerIndex: number) =>()=> {
+        selectAnswer(info.id, answerIndex);
+      }
+```
+12. Add to `<ListItemButton>` element the `onClick` action:
+```js
+                <ListItemButton onClick={createHandleClick(index)}>
+```
+
+
+
 
 ## React + TypeScript + Vite
 
