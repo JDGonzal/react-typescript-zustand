@@ -320,7 +320,7 @@ pnpm install @types/react-syntax-highlighter -D
                 <ListItemButton onClick={createHandleClick(index)}>
 ```
 
-## Show the Answer if iit is Correct or not
+## Show the Answer if it is Correct or not
 1. Add a Method to show to user if the answer is correct or not:
 ```js
     const getBackgroundColor = (index: number) => {}
@@ -368,6 +368,61 @@ pnpm i --save-dev @types/canvas-confetti
           if (isCorrectUserAnswer)confetti();
           ...
 ```
+
+## Adding the arrows to move into Questions
+1. Add in our store "questions.ts" file, two new functions:
+```js
+    interface State {
+      ...
+      goNextQuestion: () => void;
+      goPreviousQuestion: () => void;
+    }
+```
+2. Control to move forward or back in "questions.ts" file:
+```js
+        goNextQuestion: () => {
+          const { currentQuestion, questions } = get();
+          const nextQuestion = currentQuestion + 1;
+          if (nextQuestion < questions.length) set({ currentQuestion: nextQuestion });
+        },
+        goPreviousQuestion: () => {
+          const { currentQuestion } = get();
+          const previousQuestion = currentQuestion - 1;
+          if (previousQuestion >= 0) set({ currentQuestion: previousQuestion });
+        }
+```
+3. Call in "Game.tsx" the new functions:
+```js
+    function Game() {
+      ...
+      const goNextQuestion = useQuestionsStore(state => state.goNextQuestion);
+      const goPreviousQuestion = useQuestionsStore(state => state.goPreviousQuestion);
+      ...
+```
+4. Add and `<Stack>` element above the `<QuestionComponent>` element
+```js
+          <Stack direction={'row'} gap={2} alignItems={'center'} justifyContent={'center'}>
+          </Stack>
+```
+5. Lets use the `goPreviosQuestion` and draw a left arrow into the `<Stack>` element.
+```js
+            <IconButton onClick={goPreviousQuestion} disabled={currentQuestion === 0}>
+              <ArrowBackIosNew />
+            </IconButton>
+```
+6. Lets use the `goNextQuestion` and draw a right arrow into the `<Stack>` element.
+```js
+            <IconButton onClick={goNextQuestion} disabled={currentQuestion >= questions.length - 1}>
+              <ArrowForwardIos />
+            </IconButton>
+```
+7. Finally add a message between those arrows to indicate the question number and total of them:
+```js
+            {currentQuestion+1} / {questions.length}
+```
+### Note: the `<ArrowBackIosNew/>` and `<ArrowForwardIos/>` requires to import from `@mui/icons-material`.
+
+
 
 ## React + TypeScript + Vite
 
