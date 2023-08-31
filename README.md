@@ -18,7 +18,7 @@ Based on this site
 cd react-typescript-zustand
 pnpm install
 ```
-4. Install the react MUI 
+4. Install the react MUI-material, emotion-react, and emotion-styled
 ```bash
 pnpm install @mui/material @emotion/react @emotion/styled
 ```
@@ -47,7 +47,7 @@ Note: "ts-standard" is a ruler set to work with Typescript and React.
     import '@fontsource/roboto/700.css';
 ```
 3. Delete the "maintsx" the first line `import React from 'react'`, then remove `<React.StrictMode>`, as well.
-4. Creating a new component in "src" directory, called "JavaScriptLogo.tsx" and run the `rfce` snippet, and delete the first line.
+4. Creating a new component in "src" directory, called "JavaScriptLogo.tsx", run the `rfce` snippet, and delete the first line.
 5. Take the JavaScript log in SVG format from this site [Descarga el logo de HTML5, CSS3 y JavaScript en formato vectorial SVG](https://midu.dev/logos-svg-css-html-javascript/)
 6. Change the `<div>` element of the new "JavaScriptLogo.tsx" file.
 7. Change the `width={48}` and `height={48}`.
@@ -422,7 +422,48 @@ pnpm i --save-dev @types/canvas-confetti
 ```
 ### Note: the `<ArrowBackIosNew/>` and `<ArrowForwardIos/>` requires to import from `@mui/icons-material`.
 
-
+## Adding a Footer component
+1. Add a "Footer.tsx" file in the root, run the `rfce` snippet, and delete the first line.
+2. first get the questions of the store: `const questions = useQuestionsStore(state => state.questions);`.
+3. Crete three counters: `correctCount`,`wrongCount`, `unanswered`.
+4. Move arround the questions using a `forEach`:
+```js
+      questions.forEach(question => {
+        const {userSelectedAnswer: userAnswer, correctAnswer} = question;
+        if (userAnswer === null || userAnswer === undefined) unanswered++;
+        else {
+          if (userAnswer === correctAnswer) correctCount++
+          else wrongCount++;
+        }
+```
+5. Return a `<footer>` element:
+```js
+        <footer style={{ marginTop: '16px', }}>
+          <strong>{`✅ ${correctCount} - ❌ ${wrongCount} - ❓ ${unanswered}`}</strong>
+        </footer>
+```
+6. Call this "Footer" component into "Game.tsx" file.
+7. improvement the "Footer.tsx" as a custom hook. in a "useQuestionsData.tsx" file
+```js
+    import { useQuestionsStore } from "../store/questions";
+    export const useQuestionData = () => {
+      //first get the questions of the store
+      const questions = useQuestionsStore(state => state.questions);
+      let correctCount = 0;
+      let wrongCount = 0;
+      let unanswered = 0;
+      questions.forEach(question => {
+        const { userSelectedAnswer: userAnswer, correctAnswer } = question;
+        if (userAnswer === null || userAnswer === undefined) unanswered++;
+        else {
+          if (userAnswer === correctAnswer) correctCount++
+          else wrongCount++;
+        }
+      })
+      return{ correctCount,wrongCount, unanswered};
+    }
+```
+8. Finally move all `Components` to the "components" directory
 
 ## React + TypeScript + Vite
 

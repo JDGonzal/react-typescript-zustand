@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { type Question } from '../types.d';
+import { type Question } from '../models/types.d';
 import confetti from 'canvas-confetti';
 
 interface State {
