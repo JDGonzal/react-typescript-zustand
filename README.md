@@ -320,8 +320,54 @@ pnpm install @types/react-syntax-highlighter -D
                 <ListItemButton onClick={createHandleClick(index)}>
 ```
 
+## Show the Answer if iit is Correct or not
+1. Add a Method to show to user if the answer is correct or not:
+```js
+    const getBackgroundColor = (index: number) => {}
+```
+2. Inside `getBackgroundColor` destructure the values to validate:
+```js
+      const { userSelectedAnswer, correctAnswer } = info;
+```
+3. validate the Answer Selecte in `null` or `undefinied`:
+```js
+      const getSelectedAnswer=()=> {
+        const { userSelectedAnswer} = info;
+        return (userSelectedAnswer === null || userSelectedAnswer === undefined);
+      }
+```
+4.  The user not selected anything 
+    `if (getSelectedAnswer()) return 'transparent';`.
 
+    If the user selected but it is wrong answer 
+    `if (index !== correctAnswer && index !== userSelectedAnswer) return 'transparent';`
 
+    If the user selected the correct answer
+    `if (index === correctAnswer) return 'green';`
+
+    If the user selected but it is wrong answer
+    `if (index === userSelectedAnswer) return 'red';`
+5. Then disabled the click on `<ListItemButton>` element:
+```js
+            <ListItemButton>
+              disabled={!(getSelectedAnswer())}
+              ...
+            </ListItemButton>
+```
+6. Install the `canvas-confetti`and the type:
+```bash
+pnpm install canvas-confetti -E
+pnpm i --save-dev @types/canvas-confetti
+```
+7. Import in "questions.ts" file: `import confetti from 'canvas-confetti';`.
+8. Use in the "questions.ts" file into the `selectAnswer` below of `const isCorrectUserAnswer =`
+```js
+          ...
+          const isCorrectUserAnswer = questionInfo.correctAnswer === answerIndex;
+          // Show Confetti
+          if (isCorrectUserAnswer)confetti();
+          ...
+```
 
 ## React + TypeScript + Vite
 
