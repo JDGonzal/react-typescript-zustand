@@ -7,6 +7,8 @@ interface State {
   currentQuestion: number;
   fetchQuestions: (limit: number) => Promise<void>;
   selectAnswer: (questionId: number, answerIndex: number) => void;
+  goNextQuestion: () => void;
+  goPreviousQuestion: () => void;
 }
 
 export const useQuestionsStore = create<State>((set, get) => {
@@ -20,7 +22,7 @@ export const useQuestionsStore = create<State>((set, get) => {
       set({ questions });
     },
     selectAnswer: (questionId: number, answerIndex: number) => {
-      const {questions }= get();
+      const { questions } = get();
       // We are going to use the "structureClone"
       const newQuestions = structuredClone(questions);
       // Get the position of this based on questionId
@@ -30,15 +32,25 @@ export const useQuestionsStore = create<State>((set, get) => {
       // Checking the correct answer
       const isCorrectUserAnswer = questionInfo.correctAnswer === answerIndex;
       // Show Confetti
-      if (isCorrectUserAnswer)confetti();
+      if (isCorrectUserAnswer) confetti();
       // Changing the info of the copy in the question
-      newQuestions[questionIndex] ={
-        ... questionInfo,
+      newQuestions[questionIndex] = {
+        ...questionInfo,
         isCorrectUserAnswer,
         userSelectedAnswer: answerIndex,
       }
       // Update the State
-      set({questions: newQuestions});
+      set({ questions: newQuestions });
+    },
+    goNextQuestion: () => {
+      const { currentQuestion, questions } = get();
+      const nextQuestion = currentQuestion + 1;
+      if (nextQuestion < questions.length) set({ currentQuestion: nextQuestion });
+    },
+    goPreviousQuestion: () => {
+      const { currentQuestion } = get();
+      const previousQuestion = currentQuestion - 1;
+      if (previousQuestion >= 0) set({ currentQuestion: previousQuestion });
     }
   }
 });

@@ -1,8 +1,10 @@
-import { /*IconButton, Stack,*/ Card, List, ListItem, ListItemButton, ListItemText, Typography } from '@mui/material';
+import { /*IconButton, Stack,*/ Card, IconButton, List, ListItem, ListItemButton, ListItemText, Stack, Typography } from '@mui/material';
+import { ArrowBackIosNew, ArrowForwardIos } from '@mui/icons-material';
 import { useQuestionsStore } from "./store/questions";
 import SyntaxHighlighter from "react-syntax-highlighter";
 import { gradientDark } from "react-syntax-highlighter/dist/esm/styles/hljs";
 import { type Question } from "./types";
+
 
 const QuestionComponent = ({ info }: { info: Question }) => {
   const selectAnswer = useQuestionsStore(state => state.selectAnswer);
@@ -11,8 +13,8 @@ const QuestionComponent = ({ info }: { info: Question }) => {
     selectAnswer(info.id, answerIndex);
   }
 
-  const getSelectedAnswer=()=> {
-    const { userSelectedAnswer} = info;
+  const getSelectedAnswer = () => {
+    const { userSelectedAnswer } = info;
     return (userSelectedAnswer === null || userSelectedAnswer === undefined);
   }
 
@@ -56,11 +58,24 @@ const QuestionComponent = ({ info }: { info: Question }) => {
 function Game() {
   const questions = useQuestionsStore(state => state.questions);
   const currentQuestion = useQuestionsStore(state => state.currentQuestion);
-
+  const goNextQuestion = useQuestionsStore(state => state.goNextQuestion);
+  const goPreviousQuestion = useQuestionsStore(state => state.goPreviousQuestion);
 
   const questionInfo = questions[currentQuestion];
   return (
-    <QuestionComponent info={questionInfo} />
+    <>
+      <Stack direction={'row'} gap={2} alignItems={'center'} justifyContent={'center'}>
+        <IconButton onClick={goPreviousQuestion} disabled={currentQuestion === 0}>
+          <ArrowBackIosNew />
+        </IconButton>
+        {currentQuestion+1} / {questions.length}
+        <IconButton onClick={goNextQuestion} disabled={currentQuestion >= questions.length - 1}>
+          <ArrowForwardIos />
+        </IconButton>
+      </Stack>
+      <QuestionComponent info={questionInfo} />
+    </>
+
   )
 }
 
