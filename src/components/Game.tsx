@@ -1,9 +1,10 @@
 import { /*IconButton, Stack,*/ Card, IconButton, List, ListItem, ListItemButton, ListItemText, Stack, Typography } from '@mui/material';
 import { ArrowBackIosNew, ArrowForwardIos } from '@mui/icons-material';
-import { useQuestionsStore } from "./store/questions";
+import { useQuestionsStore } from "../store/questions";
 import SyntaxHighlighter from "react-syntax-highlighter";
 import { gradientDark } from "react-syntax-highlighter/dist/esm/styles/hljs";
-import { type Question } from "./types";
+import { type Question } from "../models/types";
+import Footer from './Footer';
 
 
 const QuestionComponent = ({ info }: { info: Question }) => {
@@ -74,6 +75,7 @@ function Game() {
         </IconButton>
       </Stack>
       <QuestionComponent info={questionInfo} />
+      <Footer/>
     </>
 
   )
