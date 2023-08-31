@@ -1,5 +1,6 @@
 import { create } from 'zustand';
-import { Question } from '../types.d';
+import { type Question } from '../types.d';
+import confetti from 'canvas-confetti';
 
 interface State {
   questions: Question[];
@@ -28,6 +29,8 @@ export const useQuestionsStore = create<State>((set, get) => {
       const questionInfo = newQuestions[questionIndex];
       // Checking the correct answer
       const isCorrectUserAnswer = questionInfo.correctAnswer === answerIndex;
+      // Show Confetti
+      if (isCorrectUserAnswer)confetti();
       // Changing the info of the copy in the question
       newQuestions[questionIndex] ={
         ... questionInfo,
