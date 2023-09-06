@@ -1,4 +1,4 @@
-import { /*IconButton, Stack,*/ Card, IconButton, List, ListItem, ListItemButton, ListItemText, Stack, Typography } from '@mui/material';
+import { Card, IconButton, List, ListItem, ListItemButton, ListItemText, Stack, Typography } from '@mui/material';
 import { ArrowBackIosNew, ArrowForwardIos } from '@mui/icons-material';
 import { useQuestionsStore } from "../store/questions";
 import SyntaxHighlighter from "react-syntax-highlighter";
@@ -69,13 +69,13 @@ function Game() {
         <IconButton onClick={goPreviousQuestion} disabled={currentQuestion === 0}>
           <ArrowBackIosNew />
         </IconButton>
-        {currentQuestion+1} / {questions.length}
+        {currentQuestion + 1} / {questions.length}
         <IconButton onClick={goNextQuestion} disabled={currentQuestion >= questions.length - 1}>
           <ArrowForwardIos />
         </IconButton>
       </Stack>
       <QuestionComponent info={questionInfo} />
-      <Footer/>
+      <Footer />
     </>
 
   )

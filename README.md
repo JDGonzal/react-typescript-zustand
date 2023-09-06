@@ -463,7 +463,38 @@ pnpm i --save-dev @types/canvas-confetti
       return{ correctCount,wrongCount, unanswered};
     }
 ```
-8. Finally move all `Components` to the "components" directory
+8. Finally move all `Components` to the "components" directory.
+
+## Data persistence with LocalStorage
+1. import in "question.ts" file our store from `zustand` the `persist`:
+```js
+    import { persist } from 'zustand/middleware';
+```
+2. To envolve with `persist` with `persist()`;
+```js
+    export const useQuestionsStore = create<State>()(persist((set, get) => {
+      return {
+        ...
+      }
+    },{
+      name:"questions",
+      getStorage: () => localStorage
+    }));
+```
+### Note: just adding this `persist` it store all `state` in the `LocalStorage`.
+
+3. Add a `resetGame` function into the `questions.ts` file, our store.
+4. Call the new function and assign to a `const` in "Footer.tsx" file.
+```js
+    const resetGame = useQuestionsStore(state => state.resetGame);
+```
+5. Add a reset button in the "Footer.tsx" file, below the `<strong>` element :
+```js
+          <Button onClick={()=>resetGame()} >
+            Resetear juego
+          </Button>
+```
+
 
 ## React + TypeScript + Vite
 
